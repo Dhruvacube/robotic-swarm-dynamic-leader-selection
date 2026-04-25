@@ -93,7 +93,9 @@ def run_normal(args, cfg: SimulationConfig):
     sim = Simulation(cfg)
     swarm = sim.run(verbose=True)
 
-    save_path = args.save or os.path.join(os.path.dirname(__file__), "dashboard.png")
+    default_save_dir = os.path.join(os.path.dirname(__file__), "..", "images")
+    os.makedirs(default_save_dir, exist_ok=True)
+    save_path = args.save or os.path.join(default_save_dir, "dashboard.png")
     viz = Visualizer(swarm, cfg)
     viz.dashboard(save_path=save_path, show=not args.no_show)
 
@@ -136,7 +138,9 @@ def run_comparison(args, cfg: SimulationConfig):
     print(f"{'-' * 50}")
 
     # Dashboard for new
-    save_path = args.save or os.path.join(os.path.dirname(__file__), "dashboard_improved.png")
+    default_save_dir = os.path.join(os.path.dirname(__file__), "..", "images")
+    os.makedirs(default_save_dir, exist_ok=True)
+    save_path = args.save or os.path.join(default_save_dir, "dashboard_improved.png")
     viz = Visualizer(swarm_new, cfg)
     viz.dashboard(save_path=save_path, show=False)
 
@@ -145,7 +149,7 @@ def run_comparison(args, cfg: SimulationConfig):
     fig, ax = plt.subplots(figsize=(8, 5))
     fig.patch.set_facecolor("#1A1A2E")
     Visualizer.plot_flapping_comparison(swarm_new, swarm_old, ax)
-    comp_path = os.path.join(os.path.dirname(__file__), "comparison.png")
+    comp_path = os.path.join(default_save_dir, "comparison.png")
     fig.savefig(comp_path, dpi=150, facecolor="#1A1A2E")
     print(f"  Comparison chart saved to {comp_path}")
 

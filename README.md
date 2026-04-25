@@ -68,44 +68,26 @@ Before a leadership change takes effect, the swarm runs a lightweight voting rou
 ```
 robotic-swarm-dynamic-leader-selection/
 |
-|-- src/
-|   +-- main.cpp                    # Main firmware (integrates all libraries)
-|
-|-- include/
-|   +-- SwarmConfig.h               # Pin assignments, timing, tuning constants
-|
-|-- lib/                            # Project-specific libraries (PlatformIO)
-|   |-- LeaderElection/
-|   |   |-- LeaderElection.h        # Core algorithm header
-|   |   +-- LeaderElection.cpp      # Weighted scoring + hysteresis + fault detection
-|   |
-|   |-- SensorManager/
-|   |   |-- SensorManager.h         # Sensor wrapper header
-|   |   +-- SensorManager.cpp       # IMU, ultrasonic, IR, encoder, battery health
-|   |
-|   |-- SwarmComm/
-|   |   |-- SwarmComm.h             # RF24 communication protocol header
-|   |   +-- SwarmComm.cpp           # Broadcast, ACK payloads, peer exchange
-|   |
-|   +-- MotorControl/
-|       |-- MotorControl.h          # Motor driver header
-|       +-- MotorControl.cpp        # Differential drive H-bridge control
+|-- pio_src/                        # PlatformIO project (ESP32 Firmware)
+|   |-- src/
+|   |   +-- main.cpp                # Main firmware (integrates all libraries)
+|   |-- include/
+|   |   +-- SwarmConfig.h           # Pin assignments, timing, tuning constants
+|   |-- lib/                        # Project-specific libraries
+|   |   |-- LeaderElection/
+|   |   |-- SensorManager/
+|   |   |-- SwarmComm/
+|   |   +-- MotorControl/
+|   +-- platformio.ini              # PlatformIO project config
 |
 |-- simulation/
-|   +-- simulation.slx              # MATLAB/Simulink model (improved algorithm)
+|   +-- simulation.slx              # MATLAB/Simulink model
 |
 |-- py_src/                         # Python simulation package
 |   |-- main.py                     # CLI entry point
-|   |-- swarm_config.py             # All configurable parameters
-|   |-- robot.py                    # Robot agent (sensors, battery, dynamics)
-|   |-- leader_election.py          # Election engine (scoring, hysteresis, consensus)
-|   |-- swarm.py                    # Swarm orchestrator
-|   |-- simulation.py               # Time-stepped simulation driver
-|   |-- visualizer.py               # Matplotlib dashboard & charts
-|   +-- requirements.txt            # Python dependencies
-|
-+-- platformio.ini                  # PlatformIO project config (ESP32)
+|   +-- ...                         # Other python modules
 ```
+
 
 ## Quick Start -- Python Simulation
 
@@ -181,6 +163,9 @@ The firmware runs on **ESP32-DOIT-DevKit-V1** with:
 ### Build & Flash
 
 ```bash
+# Navigate to the firmware directory
+cd pio_src
+
 # Set your robot ID in include/SwarmConfig.h (or via build flag)
 # MY_ROBOT_ID = 0, 1, 2, ...
 
